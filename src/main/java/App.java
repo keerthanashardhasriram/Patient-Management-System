@@ -5,7 +5,7 @@ public class App {
         System.out.println("Patient Management System Backend is running!");
 
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.authenticate("superadmin", "root123");
+        User user = userDAO.authenticate("superadmin", "root123"); // Test your SUPER_ADMIN
 
         if (user != null) {
             System.out.println("Login successful! Role: " + user.getRole());
