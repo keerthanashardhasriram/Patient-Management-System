@@ -2,16 +2,15 @@ package com.pms;
 
 public class App {
     public static void main(String[] args) {
-          try {
-            Connection conn = DBConnection.getConnection();
-            PatientDAO patientDAO = new PatientDAO(conn);
+        System.out.println("Patient Management System Backend is running!");
 
-            // Test insert
-            patientDAO.addPatient("John Doe", 30, "Male", "9876543210", "No allergies");
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.authenticate("superadmin", "root123");
 
-            System.out.println("Patient inserted successfully!");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (user != null) {
+            System.out.println("Login successful! Role: " + user.getRole());
+        } else {
+            System.out.println("Login failed!");
         }
     }
 }
