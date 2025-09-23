@@ -1,38 +1,25 @@
-.App {
-  text-align: center;
+import React, { useEffect, useState } from "react";
+
+function App() {
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/patients")  // <-- backend API
+      .then(res => res.json())
+      .then(data => setPatients(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  return (
+    <div>
+      <h1>Patient List</h1>
+      <ul>
+        {patients.map((p, index) => (
+          <li key={index}>{p.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+export default App;
