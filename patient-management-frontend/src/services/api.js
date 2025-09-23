@@ -1,19 +1,16 @@
-// src/services/api.js
+const BASE_URL = "http://localhost:8080";
 
-const BASE_URL = "http://localhost:8080"; // backend URL
-
-// Fetch all patients
 export const fetchPatients = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/api/patients`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch patients");
-    }
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  const res = await fetch(`${BASE_URL}/api/patients`);
+  return res.json();
 };
 
-// You can add more API functions here, e.g., addPatient, deletePatient
+// Add this function
+export const addPatient = async (patient) => {
+  const res = await fetch(`${BASE_URL}/api/patients/add`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patient),
+  });
+  return res.json();
+};
