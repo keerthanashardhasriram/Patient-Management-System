@@ -3,21 +3,37 @@ import { fetchPatients, addPatient } from "./services/api";
 
 function App() {
   const [patients, setPatients] = useState([]);
+  const [name, setName] = useState("");
 
+  // Fetch patients on load
   useEffect(() => {
-    // Test API connection
-    fetch("http://localhost:8080/api/patients")  // <-- backend API
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);   // see data in browser console
-        setPatients(data);   // save data in state to display
-      })
+    fetchPatients()
+      .then(data => setPatients(data))
       .catch(err => console.error(err));
   }, []);
+
+  // Add patient handler
+  const handleAddPatient = async () => {
+    if (!name) return;
+    try {
+      const newPatient = await addPatient({ name });
+      setPatients(prev => [...prev, newPatient]);
+      setName(""); // clear input
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>
       <h1>Patient List</h1>
+      <input
+        type="text"
+        value={name}
+        onChange={e => setName(e.target.value)}
+        placeholder="Enter patient name"
+      />
+      <button onClick={handleAddPatient}>Add Patient</button>
       <ul>
         {patients.map((p, index) => (
           <li key={index}>{p.name}</li>
